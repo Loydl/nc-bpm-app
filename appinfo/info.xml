@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>files_bpmn</id>
+    <name>Files Bpmn</name>
+    <summary>BPMN editor</summary>
+    <description><![CDATA[Add support for BPMN files.]]></description>
+    <version>0.2.0</version>
+    <licence>agpl</licence>
+    <author mail="klaus@jsxc.org" >Klaus Herberth</author>
+    <namespace>FilesBpmn</namespace>
+    <category>files</category>
+    <category>integration</category>
+    <category>office</category>
+    <bugs>https://github.com/Loydl/nc-bpm-app/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="20" max-version="21"/>
+    </dependencies>
+</info>

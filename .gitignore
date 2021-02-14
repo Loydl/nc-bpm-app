@@ -1,0 +1,12 @@
+.idea
+*.iml
+/js/
+/vendor/
+node_modules/
+.php_cs.cache
+/archive/
+/.env
+/archives/
+.phpunit.result.cache
+.vscode/settings.json
+/composer.phar
