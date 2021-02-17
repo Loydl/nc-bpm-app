@@ -45,6 +45,9 @@ jobs:
       run: composer update phpunit/phpunit -W
     - name: Install dependencies
       working-directory: nextcloud/apps/files_bpmn
+      run: composer require --dev christophwurst/nextcloud:dev-${{ matrix.nextcloud-versions }}
+    - name: Install dependencies
+      working-directory: nextcloud/apps/files_bpmn
       run: composer install
     - name: Enable app
       run: php -f nextcloud/occ app:enable files_bpmn
