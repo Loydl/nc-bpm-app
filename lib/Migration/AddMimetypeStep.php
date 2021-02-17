@@ -56,11 +56,45 @@ class AddMimetypeStep implements IRepairStep {
 			$output->info('Added mimetype bpmn to database');
 		}
 
-		/** @var mixed $this->mimetypeLoader */
 		$touchedFilecacheRows = $this->mimetypeLoader->updateFilecache(self::EXTENSION, $mimetypeId);
 
 		if ($touchedFilecacheRows > 0) {
 			$output->info('Updated '.$touchedFilecacheRows.' filecache rows');
+		}
+
+		$this->registerMimetypeMapping($output);
+	}
+
+	private function registerMimetypeMapping(IOutput $output) {
+		$mimetypeMappingFile = \OC::$configDir . 'mimetypemapping.json';
+		$customMapping = [
+			'bpmn' => ['application/x-bpmn']
+		];
+
+		if (file_exists($mimetypeMappingFile)) {
+			$existingMapping = json_decode(file_get_contents($mimetypeMappingFile), true);
+
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				$output->warning('Failed to parse ' . $mimetypeMappingFile . ': ' . json_last_error_msg());
+
+				return;
+			}
+
+			if (array_key_exists('bpmn', $existingMapping)) {
+				return;
+			}
+
+			$customMapping = array_merge($existingMapping, $customMapping);
+		}
+
+		$jsonString = json_encode($customMapping, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+
+		$size = file_put_contents($mimetypeMappingFile, $jsonString);
+
+		if ($size !== false) {
+			$output->info('Custom mimetype mapping was written to config directory');
+		} else {
+			$output->warning('Could not write custom mimetype mapping');
 		}
 	}
 }
