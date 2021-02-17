@@ -35,6 +35,9 @@ jobs:
       uses: actions/checkout@master
       with:
         path: nextcloud/apps/files_bpmn
+    - name: Remove OCP
+      working-directory: nextcloud/apps/files_bpmn
+      run: composer remove --no-update --dev christophwurst/nextcloud
     - name: Fix php-parser on stable20 incompatibility with phpunit 9.3+
       if: ${{ matrix.nextcloud-versions == 'stable20' }}
       working-directory: nextcloud/3rdparty
@@ -43,9 +46,6 @@ jobs:
       if: ${{ matrix.php-versions == '7.2' }}
       working-directory: nextcloud/apps/files_bpmn
       run: composer update phpunit/phpunit -W
-    - name: Install dependencies
-      working-directory: nextcloud/apps/files_bpmn
-      run: composer require --dev christophwurst/nextcloud:dev-${{ matrix.nextcloud-versions }}
     - name: Install dependencies
       working-directory: nextcloud/apps/files_bpmn
       run: composer install
