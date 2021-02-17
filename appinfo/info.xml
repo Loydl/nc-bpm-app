@@ -4,7 +4,7 @@
     <name>Files Bpmn</name>
     <summary>BPMN editor</summary>
     <description><![CDATA[Add support for BPMN files.]]></description>
-    <version>0.2.0</version>
+    <version>0.2.0-git.fc1ff6a</version>
     <licence>agpl</licence>
     <author mail="klaus@jsxc.org">Klaus Herberth</author>
     <namespace>FilesBpmn</namespace>

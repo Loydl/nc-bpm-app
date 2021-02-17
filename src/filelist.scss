@@ -6,8 +6,8 @@
   background-image: url(../img/icon-filetypes_bpmn.svg) !important;
 }
 
-#bpmn-app, .bpmn-canvas {
-  background-color: #ffffff;
+.bpmn-canvas {
+
   bottom: 0;
   left: 0;
   position: absolute;
@@ -16,7 +16,13 @@
 }
 
 #bpmn-app {
+  background-color: #ffffff;
+  bottom: 0;
+  left: 0;
   margin-top: 50px;
+  position: fixed;
+  right: 0;
+  top:  0;
   z-index:1010;
 
   &.icon-loading {

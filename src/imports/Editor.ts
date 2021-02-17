@@ -199,6 +199,8 @@ export class Editor {
 		});
 
 		this.containerElement.removeClass('icon-loading');
+
+		$('body').css('overflow', 'hidden');
 	}
 
 	private async onClose() {
@@ -222,6 +224,8 @@ export class Editor {
 		this.resetHistoryState();
 
 		window.removeEventListener('beforeunload', this.onBeforeUnload);
+
+		$('body').css('overflow', '');
 	}
 
 	private async onSave() {
