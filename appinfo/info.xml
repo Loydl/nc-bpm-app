@@ -16,8 +16,8 @@
         <nextcloud min-version="20" max-version="21"/>
     </dependencies>
     <repair-steps>
-        <install>
+        <post-migration>
             <step>OCA\FilesBpmn\Migration\AddMimetypeStep</step>
-        </install>
+        </post-migration>
     </repair-steps>
 </info>
