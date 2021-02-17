@@ -7,6 +7,17 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
+interface ITrueMimeTypeLoader extends IMimeTypeLoader {
+	/**
+	 * Update filecache mimetype based on file extension
+	 *
+	 * @param string $ext file extension
+	 * @param int $mimeTypeId
+	 * @return int number of changed rows
+	 */
+	public function updateFilecache();
+}
+
 class AddMimetypeStep implements IRepairStep {
 	public const MIMETYPE = 'application/x-bpmn';
 	public const EXTENSION = 'bpmn';
@@ -14,7 +25,7 @@ class AddMimetypeStep implements IRepairStep {
 	/** @var IMimeTypeDetector */
 	protected $mimetypeDetector;
 
-	/** @var IMimeTypeLoader */
+	/** @var ITrueMimeTypeLoader */
 	protected $mimetypeLoader;
 
 	public function __construct(
@@ -35,7 +46,7 @@ class AddMimetypeStep implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$existing = $this->mimetypeLoader->exists(self::MIMETYPE);
 
 		// this will add the mimetype if it didn't exist
@@ -45,6 +56,7 @@ class AddMimetypeStep implements IRepairStep {
 			$output->info('Added mimetype bpmn to database');
 		}
 
+		/** @var mixed $this->mimetypeLoader */
 		$touchedFilecacheRows = $this->mimetypeLoader->updateFilecache(self::EXTENSION, $mimetypeId);
 
 		if ($touchedFilecacheRows > 0) {
