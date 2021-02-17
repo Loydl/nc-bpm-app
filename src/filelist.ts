@@ -6,7 +6,6 @@ import { Editor } from './imports/Editor';
 
 const BpmnFileMenuPlugin = {
 	attach: function (menu) {
-		console.log('menu', menu);
 		menu.addMenuEntry({
 			id: 'bpmn',
 			displayName: t('files_bpmn', 'BPMN diagram'),
