@@ -1,4 +1,14 @@
-const path = require('path')
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
+const webpack = require('webpack');
+
+const fileLoader = {
+	loader: 'file-loader',
+	options: {
+		name: '[path][name]-[sha1:hash:hex:8].[ext]',
+		outputPath: '../assets/',
+	},
+};
 
 module.exports = {
 	entry: {
@@ -11,6 +21,10 @@ module.exports = {
 		publicPath: '/js/',
 		filename: '[name].js',
 		chunkFilename: 'chunks/[name]-[hash].js',
+	},
+	performance: {
+		maxEntrypointSize: 2 * 1024 * 1024,
+		maxAssetSize: 2 * 1024 * 1024,
 	},
 	module: {
 		rules: [
@@ -35,9 +49,18 @@ module.exports = {
 				use: ['style-loader', 'css-loader', 'sass-loader'],
 			},
 			{
-				test: /\.(js)$/,
-				use: 'eslint-loader',
+				test: /\.tsx?$/,
 				enforce: 'pre',
+				use: [
+					{
+						options: {
+							eslintPath: require.resolve('eslint'),
+
+						},
+						loader: require.resolve('eslint-loader'),
+					},
+				],
+				exclude: /node_modules/,
 			},
 			{
 				test: /\.js$/,
@@ -45,19 +68,27 @@ module.exports = {
 				exclude: /node_modules/,
 			},
 			{
-				test: /\.(png|jpg|gif|svg)$/,
+				test: /\.(png|jpg|gif|svg)(\?.+)?$/,
 				loader: 'url-loader',
 				options: {
 					name: '[name].[ext]?[hash]',
 					limit: 8192,
 				},
 			},
+			{
+				test: /.*\.(ttf|woff|woff2|eot)(\?.+)?$/,
+				use: [fileLoader],
+			},
 		],
 	},
 	plugins: [
+		new webpack.ProvidePlugin({
+			$: 'jquery',
+			jQuery: 'jquery',
+		}),
 	],
 	resolve: {
 		extensions: ['*', '.tsx', '.ts', '.js', '.scss'],
 		symlinks: false,
 	},
-}
+};

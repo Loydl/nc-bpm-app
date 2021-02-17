@@ -10,3 +10,5 @@ node_modules/
 .phpunit.result.cache
 .vscode/settings.json
 /composer.phar
+yarn-error.log
+/assets/

@@ -27,7 +27,10 @@
 		"release:build": "node scripts/build-release.js",
 		"release:publish": "node scripts/publish-release.js"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"bpmn-js": "^8.2.0",
+		"jquery": "^3.5.1"
+	},
 	"husky": {
 		"hooks": {
 			"pre-commit": "yarn lint",
@@ -49,6 +52,7 @@
 		"@commitlint/config-conventional": "^9.1.2",
 		"@nextcloud/axios": "^1.3.2",
 		"@nextcloud/browserslist-config": "^1.0.0",
+		"@nextcloud/dialogs": "^3.1.1",
 		"@nextcloud/eslint-plugin": "^2.0.0",
 		"@nextcloud/files": "^1.0.1",
 		"@nextcloud/router": "^1.0.2",
