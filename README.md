@@ -1,52 +1,32 @@
-# Files Bpmn
-Place this app in **nextcloud/apps/**
+# BPMN file editor for Nextcloud
 
-## Building the app
+![Static analysis](https://github.com/Loydl/nc-bpm-app/workflows/Static%20analysis/badge.svg)
+![PHP Tests](https://github.com/Loydl/nc-bpm-app/workflows/PHP%20Tests/badge.svg)
+![Lint](https://github.com/Loydl/nc-bpm-app/workflows/Lint/badge.svg)
+![Downloads](https://img.shields.io/github/downloads/Loydl/nc-bpm-app/total.svg)
+![GitHub release](https://img.shields.io/github/release/Loydl/nc-bpm-app.svg)
 
-The app can be built by using the provided Makefile by running:
+This app integrates the [BPMN.io editor](https://bpmn.io) into Nextcloud.
 
-    make
+## :heart_eyes: Features
+This integration provides the following features:
 
-This requires the following things to be present:
-* make
-* which
-* tar: for building the archive
-* curl: used if phpunit and composer are not installed to fetch them from the web
-* npm: for building and testing everything JS, only required if a package.json is placed inside the **js/** folder
+* **Editor** Edit BPMN diagrams on every folder with write permission
+* **Viewer** View BPMN diagrams if you have no write permission
+* **New diagrams** Create new diagrams via the Nextcloud files app
 
-The make command will install or update Composer dependencies if a composer.json is present and also **npm run build** if a package.json is present in the **js/** folder. The npm **build** script should use local paths for build systems and package managers, so people that simply want to build the app won't need to install npm libraries globally, e.g.:
+## :rocket: Install it
+The easiest way to install this app is by using the [Nextcloud app store](https://apps.nextcloud.com/apps/files_bpmn).
+If you like to build from source, please continue reading.
 
-**package.json**:
-```json
-"scripts": {
-    "test": "node node_modules/gulp-cli/bin/gulp.js karma",
-    "prebuild": "npm install && node_modules/bower/bin/bower install && node_modules/bower/bin/bower update",
-    "build": "node node_modules/gulp-cli/bin/gulp.js"
-}
-```
+To install it change into your Nextcloud's apps directory:
 
+    cd nextcloud/apps
 
-## Publish to App Store
+Then run:
 
-First get an account for the [App Store](http://apps.nextcloud.com/) then run:
+    git clone https://github.com/Loydl/nc-bpm-app.git files_bpmn
 
-    make && make appstore
+Then install the dependencies using:
 
-The archive is located in build/artifacts/appstore and can then be uploaded to the App Store.
-
-## Running tests
-You can use the provided Makefile to run all tests by using:
-
-    make test
-
-This will run the PHP unit and integration tests and if a package.json is present in the **js/** folder will execute **npm run test**
-
-Of course you can also install [PHPUnit](http://phpunit.de/getting-started.html) and use the configurations directly:
-
-    phpunit -c phpunit.xml
-
-or:
-
-    phpunit -c phpunit.integration.xml
-
-for integration tests
+    yarn install && composer install && yarn build
