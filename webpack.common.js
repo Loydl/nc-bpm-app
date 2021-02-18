@@ -23,7 +23,6 @@ module.exports = {
 		chunkFilename: 'chunks/[name]-[hash].js',
 	},
 	performance: {
-		maxEntrypointSize: 2 * 1024 * 1024,
 		maxAssetSize: 2 * 1024 * 1024,
 	},
 	module: {

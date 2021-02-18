@@ -107,10 +107,6 @@ declare namespace OC {
 	};
 }
 
-declare function t(app: string, string: string, vars?: { [key: string]: string }, count?: number, options?: EscapeOptions): string;
-
-declare function n(app: string, singular: string, plural: string, number: number, vars?: { [key: string]: string }): string;
-
 declare module 'NC' {
 	export interface OCSResult<T> {
 		ocs: {

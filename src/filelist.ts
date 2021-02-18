@@ -1,8 +1,15 @@
+import { translate as t } from '@nextcloud/l10n';
 import './imports/bootstrap';
 import './filelist.scss';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
-import { Editor } from './imports/Editor';
+
+function startEditor(file, fileList) {
+	import(/* webpackChunkName: "editor" */ './imports/Editor').then(({ default: Editor }) => {
+		const editor = new Editor(file, fileList);
+		editor.start();
+	});
+}
 
 const BpmnFileMenuPlugin = {
 	attach: function (menu) {
@@ -14,13 +21,13 @@ const BpmnFileMenuPlugin = {
 			fileType: 'file',
 			actionHandler(fileName: string) {
 				const fileList = menu.fileList;
-				const editor = new Editor({
+				const file = {
 					name: fileName,
 					path: fileList.getCurrentDirectory(),
 					permissions: OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE,
-				}, fileList);
+				};
 
-				editor.start();
+				startEditor(file, fileList);
 			},
 		});
 	},
@@ -47,8 +54,7 @@ const BpmnFileListPlugin = {
 			actionHandler(fileName: string, context) {
 				const file = context.fileList.elementToFile(context.$file);
 
-				const editor = new Editor(file, fileList);
-				editor.start();
+				startEditor(file, context.fileList);
 			},
 		});
 

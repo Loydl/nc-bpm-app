@@ -22,9 +22,6 @@ type NextcloudFile = {
 }
 
 type NextcloudFileList = {
-	$el: JQuery<HTMLElement>
-	$fileList: JQuery<HTMLElement>
-	files: NextcloudFile[]
 	setViewerMode: (enabled: boolean) => void
 	showMask: () => void
 	hideMask: () => void
@@ -50,7 +47,7 @@ const STATUS_CREATED = 201;
 const STATUS_PRECONDITION_FAILED = 412;
 const CONTENT_ID = 'bpmn-app';
 
-export class Editor {
+export default class Editor {
 	private originalUrl: URL;
 
 	private originalEtag: string;
