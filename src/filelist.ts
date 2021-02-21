@@ -1,8 +1,37 @@
 import { translate as t } from '@nextcloud/l10n';
+import { loadState } from '@nextcloud/initial-state';
 import './imports/bootstrap';
 import './filelist.scss';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
+
+function bootstrapFileShare() {
+	if (!OCA?.Sharing?.PublicApp) {
+		return;
+	}
+
+	const state = loadState<{ permissions: number, nodeType: string }>('files_bpmn', 'share');
+
+	if ($('#mimetype').val() === 'application/x-bpmn' && state?.nodeType === 'file') {
+		const filename = $('#filename').val();
+		const file = {
+			name: filename,
+			path: '/',
+			permissions: state.permissions,
+		};
+
+		const fileList = {
+			setViewerMode: () => undefined,
+			showMask: () => undefined,
+			hideMask: () => undefined,
+			reload: () => Promise.resolve(),
+			getDirectoryPermissions: () => 0,
+			findFile: () => file,
+		};
+
+		startEditor(file, fileList);
+	}
+}
 
 function fixFileIconForFileShare() {
 	if (!$('#dir').val() && $('#mimetype').val() === 'application/x-bpmn') {
@@ -79,3 +108,4 @@ const BpmnFileListPlugin = {
 OC.Plugins.register('OCA.Files.FileList', BpmnFileListPlugin);
 
 fixFileIconForFileShare();
+bootstrapFileShare();

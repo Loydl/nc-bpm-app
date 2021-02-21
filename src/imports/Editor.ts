@@ -28,6 +28,7 @@ type NextcloudFileList = {
 	reload: () => Promise<void>
 	getDirectoryPermissions: () => number
 	findFile: (fileName: string) => NextcloudFile | null
+	shown?: boolean
 }
 
 const PLAIN_TEMPLATE = `<?xml version="1.0" encoding="UTF-8"?>
@@ -156,11 +157,13 @@ export default class Editor {
 					.appendTo(paletteElement);
 			}
 
-			$('<div>')
-				.addClass('entry icon-close bpmn-close')
-				.attr('role', 'button')
-				.on('click', this.clickCallbackFactory(this.onClose))
-				.appendTo(paletteElement);
+			if (this.isRealFileList()) {
+				$('<div>')
+					.addClass('entry icon-close bpmn-close')
+					.attr('role', 'button')
+					.on('click', this.clickCallbackFactory(this.onClose))
+					.appendTo(paletteElement);
+			}
 
 			const canvasElement = $('<div>');
 			canvasElement.addClass('bpmn-canvas');
@@ -374,6 +377,10 @@ export default class Editor {
 
 	private isDirectoryWritable() {
 		return (this.fileList.getDirectoryPermissions() & OC.PERMISSION_CREATE) !== 0;
+	}
+
+	private isRealFileList() {
+		return typeof this.fileList.shown === 'boolean';
 	}
 
 }
