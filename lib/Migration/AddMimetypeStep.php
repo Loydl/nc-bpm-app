@@ -15,7 +15,7 @@ interface ITrueMimeTypeLoader extends IMimeTypeLoader {
 	 * @param int $mimeTypeId
 	 * @return int number of changed rows
 	 */
-	public function updateFilecache();
+	public function updateFilecache($ext, $mimeTypeId);
 }
 
 class AddMimetypeStep implements IRepairStep {
