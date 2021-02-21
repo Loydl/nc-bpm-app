@@ -64,6 +64,8 @@ async function createRelease(appId) {
 	await execa('yarn', ['composer:install']);
 	console.log('✔ composer dependencies installed'.green);
 
+	fs.rmdirSync(path.join(__dirname, 'js'), { recursive: true });
+
 	await execa('yarn', ['build']);
 	console.log('✔ scripts built'.green);
 
@@ -117,12 +119,6 @@ function createArchive(appId, fileBaseName) {
 	addFile('COPYING');
 	addFile('README.md');
 	addFile('CHANGELOG.md');
-
-	archive.glob('vendor/**/*', {
-		ignore: ['.git'],
-	}, {
-		prefix: appId,
-	});
 
 	return new Promise(resolve => {
 		output.on('close', function () {
