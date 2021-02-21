@@ -4,6 +4,18 @@ import './filelist.scss';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
 
+function fixFileIconForFileShare() {
+	if (!$('#dir').val() && $('#mimetype').val() === 'application/x-bpmn') {
+		$('#mimetypeIcon').val(OC.imagePath('files_bpmn', 'icon-filetypes_bpmn.svg'));
+	}
+}
+
+function registerFileIcon() {
+	if (OC?.MimeType?._mimeTypeIcons) {
+		OC.MimeType._mimeTypeIcons['application/x-bpmn'] = OC.imagePath('files_bpmn', 'icon-filetypes_bpmn.svg');
+	}
+}
+
 function startEditor(file, fileList) {
 	import(/* webpackChunkName: "editor" */ './imports/Editor').then(({ default: Editor }) => {
 		const editor = new Editor(file, fileList);
@@ -41,6 +53,8 @@ const BpmnFileListPlugin = {
 	],
 
 	attach(fileList) {
+		registerFileIcon();
+
 		if (this.ignoreLists.includes(fileList.id)) {
 			return;
 		}
@@ -63,3 +77,5 @@ const BpmnFileListPlugin = {
 };
 
 OC.Plugins.register('OCA.Files.FileList', BpmnFileListPlugin);
+
+fixFileIconForFileShare();

@@ -4,6 +4,10 @@ interface EscapeOptions {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare namespace OC {
+	namespace MimeType {
+		const _mimeTypeIcons: {[mimetype: string]: string};
+	}
+
 	namespace Util {
 		function humanFileSize(size: number): string;
 
