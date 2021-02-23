@@ -31,4 +31,23 @@ Then run:
 
 Then install the dependencies using:
 
-    yarn install && composer install && yarn build
+    yarn install && composer install
+
+Last thing you have to do is to build all assets with:
+
+    yarn build
+
+## :nerd_face: Release guide
+This repo contains some Node scripts to simplify the release process on Linux
+systems. They require openssl and gpg installed on your system and assume that
+you have a valid [signing key] in `~/.nextcloud/certificates/files_bpmn.key`.
+Make sure that gpg and git is configured properly to use your default signing
+key.
+
+1. bump version in `package.json`
+2. run `node scripts/build-release.js --stable` (for nightlies omit `--stable`)
+3. `node scripts/publish-release.js` will generate a changelog from your
+   commits, create and sign a release commit, and upload your app to Github and
+   the Nextcloud app store
+
+[signing key]: https://docs.nextcloud.com/server/stable/developer_manual/app_publishing_maintenance/code_signing.html

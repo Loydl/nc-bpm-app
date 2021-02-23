@@ -391,6 +391,7 @@ async function run() {
 
 	console.log(changeLog);
 
+	console.log('Please update CHANGELOG.md with the content above.');
 	console.log('Press any key to continue...');
 	await keypress();
 
