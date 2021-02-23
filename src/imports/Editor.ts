@@ -67,6 +67,7 @@ export default class Editor {
 	constructor(private file: NextcloudFile, private fileList: NextcloudFileList) {
 		this.originalUrl = new URL(window.location.toString());
 		this.originalEtag = file.etag || '';
+		this.hasUnsavedChanges = !file.etag;
 
 		window.addEventListener('beforeunload', this.onBeforeUnload);
 	}
@@ -146,6 +147,7 @@ export default class Editor {
 			this.containerElement = $('<div>');
 			this.containerElement.attr('id', CONTENT_ID);
 			this.containerElement.addClass('icon-loading');
+			this.containerElement.attr('data-state', this.hasUnsavedChanges ? 'unsaved' : 'saved');
 
 			const paletteElement = $('<div>');
 			paletteElement.addClass('bpmn-palette bpmn-filename');
