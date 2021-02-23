@@ -6,7 +6,7 @@
 ![Downloads](https://img.shields.io/github/downloads/Loydl/nc-bpm-app/total.svg)
 ![GitHub release](https://img.shields.io/github/release/Loydl/nc-bpm-app.svg)
 
-This app integrates the [BPMN.io editor](https://bpmn.io) into Nextcloud.
+This app integrates the [BPMN.io editor](https://bpmn.io) into [Nextcloud](https://nextcloud.com).
 
 ![Screenshot editor](https://raw.githubusercontent.com/Loydl/nc-bpm-app/master/docs/screenshot-editor.png)
 
