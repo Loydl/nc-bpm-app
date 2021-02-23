@@ -2,8 +2,6 @@ import { translate as t } from '@nextcloud/l10n';
 import { loadState } from '@nextcloud/initial-state';
 import './imports/bootstrap';
 import './filelist.scss';
-import 'bpmn-js/dist/assets/diagram-js.css';
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
 
 function bootstrapFileShare() {
 	if (!OCA?.Sharing?.PublicApp) {

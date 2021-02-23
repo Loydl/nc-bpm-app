@@ -2,6 +2,9 @@ import { translate as t } from '@nextcloud/l10n';
 import Modeler from 'bpmn-js/lib/Modeler';
 import Viewer from 'bpmn-js/lib/Viewer';
 import api from './api';
+import 'bpmn-js/dist/assets/diagram-js.css';
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
+import './Editor.scss';
 
 declare type Modeler = {
 	destroy(): void,
