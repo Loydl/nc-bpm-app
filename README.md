@@ -8,6 +8,8 @@
 
 This app integrates the [BPMN.io editor](https://bpmn.io) into Nextcloud.
 
+![Screenshot editor](https://raw.githubusercontent.com/Loydl/nc-bpm-app/master/docs/screenshot-editor.png)
+
 ## :heart_eyes: Features
 This integration provides the following features:
 

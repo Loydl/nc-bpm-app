@@ -11,7 +11,10 @@
     <category>files</category>
     <category>integration</category>
     <category>office</category>
+    <website>https://github.com/Loydl/nc-bpm-app/</website>
     <bugs>https://github.com/Loydl/nc-bpm-app/issues</bugs>
+    <repository>https://github.com/Loydl/nc-bpm-app/</repository>
+    <screenshot>https://raw.githubusercontent.com/Loydl/nc-bpm-app/master/docs/screenshot-editor.png</screenshot>
     <dependencies>
         <nextcloud min-version="20" max-version="21"/>
     </dependencies>
