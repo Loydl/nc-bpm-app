@@ -11,6 +11,7 @@ const libxml = require('libxmljs');
 const https = require('https');
 const archiver = require('archiver');
 const execa = require('execa');
+const { exec } = require('child_process');
 const git = require('simple-git/promise')();
 const package = require('../package.json');
 
@@ -132,11 +133,7 @@ function createArchive(appId, fileBaseName) {
 }
 
 function createNextcloudSignature(appId, filePath) {
-	const {
-		exec,
-	} = require('child_process');
-
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		const sigPath = filePath + '.ncsig';
 		exec(`openssl dgst -sha512 -sign ~/.nextcloud/certificates/${appId}.key ${filePath} | openssl base64 > ${sigPath}`, (error, stdout, stderr) => {
 			if (error) {
@@ -159,11 +156,7 @@ function createNextcloudSignature(appId, filePath) {
 }
 
 function createGPGSignature(filePath) {
-	const {
-		exec,
-	} = require('child_process');
-
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		exec(`gpg --yes --detach-sign "${filePath}"`, (error, stdout, stderr) => {
 			if (error) {
 				throw error;
@@ -185,11 +178,7 @@ function createGPGSignature(filePath) {
 }
 
 function createGPGArmorSignature(filePath) {
-	const {
-		exec,
-	} = require('child_process');
-
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		exec(`gpg --yes --detach-sign --armor "${filePath}"`, (error, stdout, stderr) => {
 			if (error) {
 				throw error;
