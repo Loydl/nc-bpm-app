@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\FilesBpmn\Tests\Integration\Controller;
+namespace OCA\FilesBpmn\Tests\Integration;
 
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
-use Test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * This test shows how to make a small Integration Test. Query your class
@@ -21,7 +21,10 @@ class AppTest extends TestCase {
 	}
 
 	public function testAppInstalled() {
+		/** @var IAppManager */
 		$appManager = $this->container->query(IAppManager::class);
+		$appManager->enableApp('files_bpmn');
+
 		$this->assertTrue($appManager->isInstalled('files_bpmn'));
 	}
 }
