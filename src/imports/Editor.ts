@@ -1,9 +1,12 @@
 import { translate as t } from '@nextcloud/l10n';
 import Modeler from 'bpmn-js/lib/Modeler';
 import Viewer from 'bpmn-js/lib/Viewer';
+import propertiesPanelModule from 'bpmn-js-properties-panel';
+import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/bpmn';
 import api from './api';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
+import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
 import './Editor.scss';
 
 declare type Modeler = {
@@ -123,9 +126,17 @@ export default class Editor {
 		if (!this.modeler) {
 			const containerElement = this.getAppContainerElement();
 			const canvasElement = containerElement.find('.bpmn-canvas');
+			const propertiesElement = containerElement.find('.bpmn-properties');
 
 			this.modeler = this.isFileUpdatable() ? new Modeler({
 				container: canvasElement,
+				additionalModules: [
+					propertiesPanelModule,
+					propertiesProviderModule,
+				],
+				propertiesPanel: {
+					parent: propertiesElement,
+				},
 			}) : new Viewer({
 				container: canvasElement,
 			});
@@ -160,6 +171,7 @@ export default class Editor {
 					.attr('role', 'button')
 					.on('click', this.clickCallbackFactory(this.onSave))
 					.appendTo(paletteElement);
+
 			}
 
 			if (this.isRealFileList()) {
@@ -173,6 +185,12 @@ export default class Editor {
 			const canvasElement = $('<div>');
 			canvasElement.addClass('bpmn-canvas');
 			canvasElement.appendTo(this.containerElement);
+
+			if(this.isFileUpdatable()) {
+				const propertiesElement = $('<div>');
+				propertiesElement.addClass('bpmn-properties');
+				propertiesElement.appendTo(this.containerElement);
+			}
 
 			$('#content').append(this.containerElement);
 		}
