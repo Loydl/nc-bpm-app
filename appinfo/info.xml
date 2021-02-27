@@ -7,11 +7,11 @@
     <version>0.2.0-alpha</version>
     <licence>agpl</licence>
     <author mail="klaus@jsxc.org">Klaus Herberth</author>
+    <namespace>FilesBpmn</namespace>
     <types>
         <filesystem/>
         <dav/>
     </types>
-    <namespace>FilesBpmn</namespace>
     <category>files</category>
     <category>integration</category>
     <category>office</category>
@@ -22,9 +22,6 @@
     <dependencies>
         <nextcloud min-version="20" max-version="21"/>
     </dependencies>
-    <settings>
-        <admin>OCA\FilesBpmn\Settings\Admin</admin>
-    </settings>
     <repair-steps>
         <post-migration>
             <step>OCA\FilesBpmn\Migration\AddMimetypeStep</step>
@@ -33,4 +30,7 @@
             <step>OCA\FilesBpmn\Migration\AddMimetypeStep</step>
         </install>
     </repair-steps>
+    <settings>
+        <admin>OCA\FilesBpmn\Settings\Admin</admin>
+    </settings>
 </info>
