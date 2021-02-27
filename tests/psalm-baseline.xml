@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.6.0@77feecb3707bd50378c21ae4d3fe9e320e6cea65">
+<files psalm-version="4.6.1@e93e532e4eaad6d68c4d7b606853800eaceccc72">
   <file src="lib/AppInfo/Application.php">
     <UndefinedClass occurrences="2">
       <code>BeforeTemplateRenderedEvent</code>
@@ -10,5 +10,10 @@
     <UndefinedClass occurrences="1">
       <code>LoadAdditionalScriptsEvent</code>
     </UndefinedClass>
+  </file>
+  <file src="lib/Preview/BPMN.php">
+    <MissingDependency occurrences="1">
+      <code>\OCP\Image</code>
+    </MissingDependency>
   </file>
 </files>

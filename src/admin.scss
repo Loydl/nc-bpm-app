@@ -1,0 +1,43 @@
+#bpm-warning {
+  padding: 1em;
+  background-color: var(--color-warning);
+  display: inline-block;
+
+  .icon {
+    display: inline-block;
+  }
+}
+
+#bpm-success {
+  padding: 1em;
+  background-color: var(--color-success);
+  display: inline-block;
+
+  .icon {
+    display: inline-block;
+  }
+}
+
+#bpm-settings {
+
+  #bpm-warning,
+  #bpm-success {
+    margin: 1em 0;
+  }
+
+  [type="url"] {
+    width: 250px;
+  }
+
+  h3 {
+    margin-top: 3em;
+  }
+
+  p {
+    margin-bottom: 1em;
+  }
+
+  form {
+    margin-bottom: 2em;
+  }
+}

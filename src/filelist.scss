@@ -1,9 +1,3 @@
 .icon-filetype-bpmn {
   background-image: url(../img/icon-filetypes_bpmn.svg);
 }
-
-// fallback in case file icon registration is failing
-#filestable tr[data-mime="application/x-bpmn"] .thumbnail,
-.app-sidebar[data-mimetype="application/x-bpmn"] .app-sidebar-header__figure {
-  background-image: url(../img/icon-filetypes_bpmn.svg) !important;
-}

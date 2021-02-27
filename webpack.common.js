@@ -15,6 +15,9 @@ module.exports = {
 		filelist: [
 			path.join(__dirname, 'src', 'filelist.ts'),
 		],
+		admin: [
+			path.join(__dirname, 'src', 'admin.ts'),
+		],
 	},
 	output: {
 		path: path.resolve(__dirname, './js'),

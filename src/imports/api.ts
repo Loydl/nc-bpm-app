@@ -2,6 +2,13 @@ import { generateRemoteUrl, generateUrl, getRootUrl } from '@nextcloud/router';
 import axios from '@nextcloud/axios';
 
 class Api {
+	public async checkPreviewServer(serverUrl: string): Promise<'success' | 'invalid-url'> {
+		const url = OC.generateUrl('apps/files_bpmn/preview/check');
+		const response = await axios.post(url, { url: serverUrl });
+
+		return response.data.result;
+	}
+
 	public async getFileContent(path: string, name: string): Promise<string> {
 		const fullPath = this.getDownloadPath(path, name);
 		const response = await axios.get(fullPath);

@@ -24,6 +24,7 @@
         "lint": "find . -name \\*.php -not -path './vendor/*' -exec php -l \"{}\" \\;",
         "psalm": "psalm --threads=1",
         "psalm:clear": "psalm --clear-cache && psalm --clear-global-cache",
-        "psalm:fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType"
+        "psalm:fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType",
+        "psalm:update": "psalm --set-baseline=tests/psalm-baseline.xml && psalm --update-baseline"
     }
 }

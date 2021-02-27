@@ -2,6 +2,7 @@
 
 namespace OCA\FilesBpmn\Migration;
 
+use OCA\FilesBpmn\AppInfo\Application;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Migration\IOutput;
@@ -19,7 +20,6 @@ interface ITrueMimeTypeLoader extends IMimeTypeLoader {
 }
 
 class AddMimetypeStep implements IRepairStep {
-	public const MIMETYPE = 'application/x-bpmn';
 	public const EXTENSION = 'bpmn';
 
 	/** @var IMimeTypeDetector */
@@ -47,10 +47,10 @@ class AddMimetypeStep implements IRepairStep {
 	 * @param IOutput $output
 	 */
 	public function run(IOutput $output): void {
-		$existing = $this->mimetypeLoader->exists(self::MIMETYPE);
+		$existing = $this->mimetypeLoader->exists(Application::MIMETYPE);
 
 		// this will add the mimetype if it didn't exist
-		$mimetypeId = $this->mimetypeLoader->getId(self::MIMETYPE);
+		$mimetypeId = $this->mimetypeLoader->getId(Application::MIMETYPE);
 
 		if (!$existing) {
 			$output->info('Added mimetype bpmn to database');
@@ -68,7 +68,7 @@ class AddMimetypeStep implements IRepairStep {
 	private function registerMimetypeMapping(IOutput $output) {
 		$mimetypeMappingFile = \OC::$configDir . 'mimetypemapping.json';
 		$customMapping = [
-			'bpmn' => ['application/x-bpmn']
+			'bpmn' => [Application::MIMETYPE]
 		];
 
 		if (file_exists($mimetypeMappingFile)) {
