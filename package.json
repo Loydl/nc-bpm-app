@@ -1,5 +1,5 @@
 {
-	"name": "files_bpmn",
+	"name": "files_bpm",
 	"version": "0.2.0",
 	"description": "BPMN editor for Nextcloud",
 	"main": "src/index.js",

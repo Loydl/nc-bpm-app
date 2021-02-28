@@ -18,7 +18,7 @@ This integration provides the following features:
 * **New diagrams** Create new diagrams via the Nextcloud files app
 
 ## :rocket: Install it
-The easiest way to install this app is by using the [Nextcloud app store](https://apps.nextcloud.com/apps/files_bpmn).
+The easiest way to install this app is by using the [Nextcloud app store](https://apps.nextcloud.com/apps/files_bpm).
 If you like to build from source, please continue reading.
 
 To install it change into your Nextcloud's apps directory:
@@ -27,7 +27,7 @@ To install it change into your Nextcloud's apps directory:
 
 Then run:
 
-    git clone https://github.com/Loydl/nc-bpm-app.git files_bpmn
+    git clone https://github.com/Loydl/nc-bpm-app.git files_bpm
 
 Then install the dependencies using:
 
@@ -40,7 +40,7 @@ Last thing you have to do is to build all assets with:
 ## :nerd_face: Release guide
 This repo contains some Node scripts to simplify the release process on Linux
 systems. They require openssl and gpg installed on your system and assume that
-you have a valid [signing key] in `~/.nextcloud/certificates/files_bpmn.key`.
+you have a valid [signing key] in `~/.nextcloud/certificates/files_bpm.key`.
 Make sure that gpg and git is configured properly to use your default signing
 key.
 

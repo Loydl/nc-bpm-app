@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\FilesBpmn\Listener;
+namespace OCA\FilesBpm\Listener;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
-use OCA\FilesBpmn\AppInfo\Application;
+use OCA\FilesBpm\AppInfo\Application;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;

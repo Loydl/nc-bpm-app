@@ -28,7 +28,7 @@ $(() => {
 		await checkServer(url);
 		await confirmPassword();
 
-		OCP.AppConfig.setValue('files_bpmn', 'preview.server', url);
+		OCP.AppConfig.setValue('files_bpm', 'preview.server', url);
 	}
 
 	$('#bpm-preview').on('submit', function (ev) {
@@ -37,7 +37,7 @@ $(() => {
 		const resultElement = $(this).find('.bpm-result').empty();
 
 		saveSettings(this['preview.server'].value).then(() => {
-			const successElement = generateSuccessElement(t('files_bpmn', 'Settings saved'));
+			const successElement = generateSuccessElement(t('files_bpm', 'Settings saved'));
 
 			setTimeout(() => {
 				resultElement.empty();
@@ -46,10 +46,10 @@ $(() => {
 			resultElement.append(successElement);
 		}).catch(err => {
 			console.log('err', err);
-			let message = t('files_bpmn', 'Unexpected error occurred');
+			let message = t('files_bpm', 'Unexpected error occurred');
 
 			if (err === 'invalid-url') {
-				message = t('files_bpmn', 'URL is invalid');
+				message = t('files_bpm', 'URL is invalid');
 			}
 
 			const warningElement = generateWarningElement(message);

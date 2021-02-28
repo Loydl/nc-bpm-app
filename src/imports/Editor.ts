@@ -206,8 +206,8 @@ export default class Editor {
 			try {
 				await modeler.importXML(bpmnXML);
 			} catch (err) {
-				const text = t('files_bpmn', 'Error while loading diagram: ') + err.toString();
-				const title = t('files_bpmn', 'Could not load diagram');
+				const text = t('files_bpm', 'Error while loading diagram: ') + err.toString();
+				const title = t('files_bpm', 'Could not load diagram');
 
 				OC.dialogs.alert(text, title, () => undefined);
 			}
@@ -280,12 +280,12 @@ export default class Editor {
 	}
 
 	private async onFileHasChanged(serverEtag: string) {
-		const title = t('files_bpmn', 'File has changed');
-		const description = t('files_bpmn', 'The file was modified while editing. Do you want to overwrite it, or should your changes be saved with a new filename?');
+		const title = t('files_bpm', 'File has changed');
+		const description = t('files_bpm', 'The file was modified while editing. Do you want to overwrite it, or should your changes be saved with a new filename?');
 		const buttons = {
 			type: OC.dialogs.YES_NO_BUTTONS,
-			confirm: t('files_bpmn', 'Overwrite'),
-			cancel: t('files_bpmn', 'As new file'),
+			confirm: t('files_bpm', 'Overwrite'),
+			cancel: t('files_bpm', 'As new file'),
 		};
 
 		return new Promise(resolve => {
@@ -306,12 +306,12 @@ export default class Editor {
 
 	private async showConfirmClose(): Promise<boolean> {
 		return new Promise(resolve => {
-			const title = t('files_bpmn', 'Discard changes?');
-			const description = t('files_bpmn', 'You have unsaved changes. Do you really want to close the editor? All your changes will be lost.');
+			const title = t('files_bpm', 'Discard changes?');
+			const description = t('files_bpm', 'You have unsaved changes. Do you really want to close the editor? All your changes will be lost.');
 			const buttons = {
 				type: OC.dialogs.YES_NO_BUTTONS,
-				confirm: t('files_bpmn', 'Close editor'),
-				cancel: t('files_bpmn', 'Abort'),
+				confirm: t('files_bpm', 'Close editor'),
+				cancel: t('files_bpm', 'Abort'),
 			};
 
 			OC.dialogs.confirmDestructive(description, title, buttons, resolve, true);
@@ -342,7 +342,7 @@ export default class Editor {
 			}).catch((error) => {
 				OC.dialogs.alert(
 					error.toString(),
-					t('files_bpmn', 'Error'),
+					t('files_bpm', 'Error'),
 					() => undefined
 				);
 
@@ -361,7 +361,7 @@ export default class Editor {
 
 	private onBeforeUnload = (ev: BeforeUnloadEvent) => {
 		if (this.hasUnsavedChanges) {
-			const message = t('files_bpmn', 'If you leave this page, all your modifications will be lost.');
+			const message = t('files_bpm', 'If you leave this page, all your modifications will be lost.');
 
 			ev.preventDefault();
 			ev.returnValue = message;

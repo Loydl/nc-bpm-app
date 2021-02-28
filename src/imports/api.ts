@@ -3,7 +3,7 @@ import axios from '@nextcloud/axios';
 
 class Api {
 	public async checkPreviewServer(serverUrl: string): Promise<'success' | 'invalid-url'> {
-		const url = OC.generateUrl('apps/files_bpmn/preview/check');
+		const url = OC.generateUrl('apps/files_bpm/preview/check');
 		const response = await axios.post(url, { url: serverUrl });
 
 		return response.data.result;

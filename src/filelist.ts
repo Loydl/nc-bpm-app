@@ -8,7 +8,7 @@ function bootstrapFileShare() {
 		return;
 	}
 
-	const state = loadState<{ permissions: number, nodeType: string }>('files_bpmn', 'share');
+	const state = loadState<{ permissions: number, nodeType: string }>('files_bpm', 'share');
 
 	if ($('#mimetype').val() === 'application/x-bpmn' && state?.nodeType === 'file') {
 		const filename = $('#filename').val();
@@ -33,13 +33,13 @@ function bootstrapFileShare() {
 
 function fixFileIconForFileShare() {
 	if (!$('#dir').val() && $('#mimetype').val() === 'application/x-bpmn') {
-		$('#mimetypeIcon').val(OC.imagePath('files_bpmn', 'icon-filetypes_bpmn.svg'));
+		$('#mimetypeIcon').val(OC.imagePath('files_bpm', 'icon-filetypes_bpmn.svg'));
 	}
 }
 
 function registerFileIcon() {
 	if (OC?.MimeType?._mimeTypeIcons) {
-		OC.MimeType._mimeTypeIcons['application/x-bpmn'] = OC.imagePath('files_bpmn', 'icon-filetypes_bpmn.svg');
+		OC.MimeType._mimeTypeIcons['application/x-bpmn'] = OC.imagePath('files_bpm', 'icon-filetypes_bpmn.svg');
 	}
 }
 
@@ -54,7 +54,7 @@ const BpmnFileMenuPlugin = {
 	attach: function (menu) {
 		menu.addMenuEntry({
 			id: 'bpmn',
-			displayName: t('files_bpmn', 'BPMN diagram'),
+			displayName: t('files_bpm', 'BPMN diagram'),
 			templateName: 'diagram.bpmn',
 			iconClass: 'icon-filetype-bpmn',
 			fileType: 'file',
@@ -88,9 +88,9 @@ const BpmnFileListPlugin = {
 
 		fileList.fileActions.registerAction({
 			name: 'bpmn',
-			displayName: t('files_bpmn', 'BPMN diagram'),
+			displayName: t('files_bpm', 'BPMN diagram'),
 			mime: 'application/x-bpmn',
-			icon: OC.imagePath('files_bpmn', 'app-dark.svg'),
+			icon: OC.imagePath('files_bpm', 'app-dark.svg'),
 			permissions: OC.PERMISSION_READ,
 			actionHandler(fileName: string, context) {
 				const file = context.fileList.elementToFile(context.$file);

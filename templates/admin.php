@@ -2,7 +2,7 @@
 /** @var $l \OCP\IL10N */
 /** @var $_ array */
 
-script('files_bpmn', 'admin');
+script('files_bpm', 'admin');
 ?>
 <div id="bpm-settings" class="section">
     <h2>BPM Editor</h2>

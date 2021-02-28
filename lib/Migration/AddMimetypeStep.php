@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\FilesBpmn\Migration;
+namespace OCA\FilesBpm\Migration;
 
-use OCA\FilesBpmn\AppInfo\Application;
+use OCA\FilesBpm\AppInfo\Application;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Migration\IOutput;

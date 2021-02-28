@@ -1,11 +1,11 @@
 <?php
 
-namespace OCA\FilesBpmn\AppInfo;
+namespace OCA\FilesBpm\AppInfo;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
-use OCA\FilesBpmn\Listener\LoadAdditionalScriptsListener;
-use OCA\FilesBpmn\Preview\BPMN;
+use OCA\FilesBpm\Listener\LoadAdditionalScriptsListener;
+use OCA\FilesBpm\Preview\BPMN;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -13,7 +13,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\IPreview;
 
 class Application extends App implements IBootstrap {
-	public const APPID = 'files_bpmn';
+	public const APPID = 'files_bpm';
 
 	public const MIMETYPE = 'application/x-bpmn';
 
