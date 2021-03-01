@@ -37,6 +37,11 @@ Last thing you have to do is to build all assets with:
 
     yarn build
 
+## :gear: Configuration
+If you like to have previews of your BPM files, please install the [BPM preview
+service][preview-service] on your server (requires root access) and add the
+corresponding URL to your settings under admin settings > additional settings.
+
 ## :nerd_face: Release guide
 This repo contains some Node scripts to simplify the release process on Linux
 systems. They require openssl and gpg installed on your system and assume that
@@ -51,3 +56,4 @@ key.
    the Nextcloud app store
 
 [signing key]: https://docs.nextcloud.com/server/stable/developer_manual/app_publishing_maintenance/code_signing.html
+[preview-service]: https://github.com/Loydl/nc-bpm-preview-service
