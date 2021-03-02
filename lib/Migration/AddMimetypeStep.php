@@ -2,7 +2,6 @@
 
 namespace OCA\FilesBpm\Migration;
 
-use OCA\FilesBpm\AppInfo\Application;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Migration\IOutput;
@@ -20,7 +19,10 @@ interface ITrueMimeTypeLoader extends IMimeTypeLoader {
 }
 
 class AddMimetypeStep implements IRepairStep {
-	public const EXTENSION = 'bpmn';
+	private const MAPPING = [
+		'bpmn' => 'application/x-bpmn',
+		'dmn' => 'application/x-dmn',
+	];
 
 	/** @var IMimeTypeDetector */
 	protected $mimetypeDetector;
@@ -40,36 +42,40 @@ class AddMimetypeStep implements IRepairStep {
 	 * Returns the step's name
 	 */
 	public function getName() {
-		return 'Add bpmn mimetype';
+		return 'Add mimetypes for BPM';
 	}
 
 	/**
 	 * @param IOutput $output
 	 */
 	public function run(IOutput $output): void {
-		$existing = $this->mimetypeLoader->exists(Application::MIMETYPE);
-
-		// this will add the mimetype if it didn't exist
-		$mimetypeId = $this->mimetypeLoader->getId(Application::MIMETYPE);
-
-		if (!$existing) {
-			$output->info('Added mimetype bpmn to database');
-		}
-
-		$touchedFilecacheRows = $this->mimetypeLoader->updateFilecache(self::EXTENSION, $mimetypeId);
-
-		if ($touchedFilecacheRows > 0) {
-			$output->info('Updated '.$touchedFilecacheRows.' filecache rows');
+		foreach (self::MAPPING as $extension => $mimetype) {
+			$this->addMimetype($mimetype, $extension, $output);
 		}
 
 		$this->registerMimetypeMapping($output);
 	}
 
+	private function addMimetype(string $mimetype, string $extension, IOutput $output) {
+		$existing = $this->mimetypeLoader->exists($mimetype);
+
+		// this will add the mimetype if it didn't exist
+		$mimetypeId = $this->mimetypeLoader->getId($mimetype);
+
+		if (!$existing) {
+			$output->info('Added mimetype '.$mimetype.' to database');
+		}
+
+		$touchedFilecacheRows = $this->mimetypeLoader->updateFilecache($extension, $mimetypeId);
+
+		if ($touchedFilecacheRows > 0) {
+			$output->info('Updated '.$touchedFilecacheRows.' filecache rows for mimetype '.$mimetype);
+		}
+	}
+
 	private function registerMimetypeMapping(IOutput $output) {
 		$mimetypeMappingFile = \OC::$configDir . 'mimetypemapping.json';
-		$customMapping = [
-			'bpmn' => [Application::MIMETYPE]
-		];
+		$existingMapping = [];
 
 		if (file_exists($mimetypeMappingFile)) {
 			$existingMapping = json_decode(file_get_contents($mimetypeMappingFile), true);
@@ -79,15 +85,21 @@ class AddMimetypeStep implements IRepairStep {
 
 				return;
 			}
-
-			if (array_key_exists('bpmn', $existingMapping)) {
-				return;
-			}
-
-			$customMapping = array_merge($existingMapping, $customMapping);
 		}
 
-		$jsonString = json_encode($customMapping, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+		$dirty = false;
+		foreach (self::MAPPING as $extension => $mimetype) {
+			if (!array_key_exists($extension, $existingMapping)) {
+				$dirty = true;
+				$existingMapping[$extension] = [$mimetype];
+			}
+		}
+
+		if (!$dirty) {
+			return;
+		}
+
+		$jsonString = json_encode($existingMapping, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
 		$size = file_put_contents($mimetypeMappingFile, $jsonString);
 

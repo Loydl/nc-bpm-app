@@ -11,7 +11,7 @@
       <code>LoadAdditionalScriptsEvent</code>
     </UndefinedClass>
   </file>
-  <file src="lib/Preview/BPMN.php">
+  <file src="lib/Preview/PreviewServer.php">
     <MissingDependency occurrences="1">
       <code>\OCP\Image</code>
     </MissingDependency>

@@ -1,25 +1,8 @@
 import { translate as t } from '@nextcloud/l10n';
-import Modeler from 'bpmn-js/lib/Modeler';
-import Viewer from 'bpmn-js/lib/Viewer';
-import propertiesPanelModule from 'bpmn-js-properties-panel';
-import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
-import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda.json';
 import api from './api';
 import './Editor.scss';
-import 'bpmn-js/dist/assets/diagram-js.css';
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
-import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
 
-declare type Modeler = {
-	destroy(): void,
-	on(event: string, callback: (...any) => void): void
-	importXML(xml: string): Promise<{ warnings: string[] }>
-	saveXML(options?: { format?: boolean, preamble?: boolean }): Promise<{ xml: string }>
-	saveSVG(): Promise<{ svg: string }>
-	get(serviceName: string, strict?: boolean): any
-}
-
-type NextcloudFile = {
+export type NextcloudFile = {
 	id?: number
 	name: string
 	path: string
@@ -28,7 +11,7 @@ type NextcloudFile = {
 	permissions: number
 }
 
-type NextcloudFileList = {
+export type NextcloudFileList = {
 	setViewerMode: (enabled: boolean) => void
 	showMask: () => void
 	hideMask: () => void
@@ -38,37 +21,22 @@ type NextcloudFileList = {
 	shown?: boolean
 }
 
-const PLAIN_TEMPLATE = `<?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn">
-  <bpmn2:process id="Process_1" isExecutable="false">
-    <bpmn2:startEvent id="StartEvent_1"/>
-  </bpmn2:process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        <dc:Bounds height="36.0" width="36.0" x="412.0" y="240.0"/>
-      </bpmndi:BPMNShape>
-    </bpmndi:BPMNPlane>
-  </bpmndi:BPMNDiagram>
-</bpmn2:definitions>`;
 const STATUS_CREATED = 201;
 const STATUS_PRECONDITION_FAILED = 412;
 const CONTENT_ID = 'bpmn-app';
 
-export default class Editor {
-	private originalUrl: URL;
+export default abstract class Editor {
+	protected originalUrl: URL;
 
-	private originalEtag: string;
+	protected originalEtag: string;
 
-	private modeler: Modeler;
+	protected containerElement: JQuery;
 
-	private containerElement: JQuery;
+	protected hasUnsavedChanges = false;
 
-	private hasUnsavedChanges = false;
+	private resizeHandler: (() => void)[] = [];
 
-	private resizeTimeout: number;
-
-	constructor(private file: NextcloudFile, private fileList: NextcloudFileList) {
+	constructor(protected file: NextcloudFile, private fileList: NextcloudFileList) {
 		this.originalUrl = new URL(window.location.toString());
 		this.originalEtag = file.etag || '';
 		this.hasUnsavedChanges = !file.etag;
@@ -76,13 +44,19 @@ export default class Editor {
 		window.addEventListener('beforeunload', this.onBeforeUnload);
 	}
 
+	protected abstract getContent(): Promise<string>
+
+	protected abstract runEditor(): Promise<void>;
+
+	protected abstract destroy(): Promise<void>;
+
 	public async start(): Promise<void> {
 		this.addEditStateToHistory();
 		this.cleanFileList();
 
-		const content = this.file.etag ? await api.getFileContent(this.file.path, this.file.name) : PLAIN_TEMPLATE;
+		await this.runEditor();
 
-		await this.runEditor(content);
+		this.setAppContainerReady();
 	}
 
 	private addEditStateToHistory() {
@@ -123,41 +97,7 @@ export default class Editor {
 		this.fileList.hideMask();
 	}
 
-	private getModeler() {
-		if (!this.modeler) {
-			const containerElement = this.getAppContainerElement();
-			const canvasElement = containerElement.find('.bpmn-canvas');
-			const propertiesElement = containerElement.find('.bpmn-properties');
-
-			this.modeler = this.isFileUpdatable() ? new Modeler({
-				container: canvasElement,
-				additionalModules: [
-					propertiesPanelModule,
-					propertiesProviderModule,
-				],
-				propertiesPanel: {
-					parent: propertiesElement,
-				},
-				moddleExtensions: {
-					camunda: camundaModdleDescriptor,
-				},
-			}) : new Viewer({
-				container: canvasElement,
-			});
-
-			this.modeler.on('element.changed', () => {
-				if (!this.hasUnsavedChanges) {
-					this.hasUnsavedChanges = true;
-
-					containerElement.attr('data-state', 'unsaved');
-				}
-			});
-		}
-
-		return this.modeler;
-	}
-
-	private getAppContainerElement() {
+	protected getAppContainerElement(): JQuery {
 		if (!this.containerElement || this.containerElement.length === 0) {
 			this.containerElement = $('<div>');
 			this.containerElement.attr('id', CONTENT_ID);
@@ -190,12 +130,6 @@ export default class Editor {
 			canvasElement.addClass('bpmn-canvas');
 			canvasElement.appendTo(this.containerElement);
 
-			if(this.isFileUpdatable()) {
-				const propertiesElement = $('<div>');
-				propertiesElement.addClass('bpmn-properties');
-				propertiesElement.appendTo(this.containerElement);
-			}
-
 			$('#content').append(this.containerElement);
 		}
 
@@ -203,31 +137,37 @@ export default class Editor {
 		return this.containerElement;
 	}
 
-	private async runEditor(bpmnXML: string) {
-		const modeler = this.getModeler();
-
-		if (bpmnXML) {
-			try {
-				await modeler.importXML(bpmnXML);
-			} catch (err) {
-				const text = t('files_bpm', 'Error while loading diagram: ') + err.toString();
-				const title = t('files_bpm', 'Could not load diagram');
-
-				OC.dialogs.alert(text, title, () => undefined);
-			}
-		}
-
-		$(window).on('resize', () => {
-			if (this.resizeTimeout) {
-				window.clearTimeout(this.resizeTimeout);
-			}
-
-			this.resizeTimeout = window.setTimeout(() => modeler.get('canvas').resized(), 500);
-		});
-
-		this.containerElement.removeClass('icon-loading');
+	private setAppContainerReady(): void {
+		this.containerElement && this.containerElement.removeClass('icon-loading');
 
 		$('body').css('overflow', 'hidden');
+	}
+
+	protected addResizeListener(cb: () => void): void {
+		let resizeTimeout: number;
+
+		const handler = () => {
+			if (resizeTimeout) {
+				window.clearTimeout(resizeTimeout);
+			}
+
+			resizeTimeout = window.setTimeout(cb, 500);
+		};
+
+		this.resizeHandler.push(handler);
+
+		$(window).on('resize', handler);
+	}
+
+	protected removeResizeListener(cb: () => void): void {
+		this.resizeHandler = this.resizeHandler.filter(handler => handler !== cb);
+	}
+
+	protected showLoadingError(errorMessage: string): void {
+		const text = t('files_bpm', 'Error while loading diagram: ') + errorMessage;
+		const title = t('files_bpm', 'Could not load diagram');
+
+		OC.dialogs.alert(text, title, () => undefined);
 	}
 
 	private async onClose() {
@@ -239,9 +179,7 @@ export default class Editor {
 			await this.fileList.reload();
 		}
 
-		if (this.modeler) {
-			this.modeler.destroy();
-		}
+		this.destroy();
 
 		if (this.containerElement && this.containerElement.length > 0) {
 			this.containerElement.remove();
@@ -256,10 +194,9 @@ export default class Editor {
 	}
 
 	private async onSave() {
-		const modeler = this.getModeler();
-		const data = await modeler.saveXML();
+		const content = await this.getContent();
 
-		const result = await api.uploadFile(this.file.path, this.file.name, data.xml, this.file.etag);
+		const result = await api.uploadFile(this.file.path, this.file.name, content, this.file.etag);
 
 		if (result.statuscode >= 200 && result.statuscode <= 299) {
 			if (result.statuscode === STATUS_CREATED) {
@@ -344,6 +281,8 @@ export default class Editor {
 					className && targetElement.removeClass(className);
 				}, 3000);
 			}).catch((error) => {
+				console.log('clickCBFactory Error', error);
+
 				OC.dialogs.alert(
 					error.toString(),
 					t('files_bpm', 'Error'),
@@ -398,15 +337,15 @@ export default class Editor {
 		return nameParts.join('.');
 	}
 
-	private isFileUpdatable() {
+	protected isFileUpdatable(): boolean {
 		return (this.file.permissions & OC.PERMISSION_UPDATE) !== 0;
 	}
 
-	private isDirectoryWritable() {
+	protected isDirectoryWritable(): boolean {
 		return (this.fileList.getDirectoryPermissions() & OC.PERMISSION_CREATE) !== 0;
 	}
 
-	private isRealFileList() {
+	protected isRealFileList(): boolean {
 		return typeof this.fileList.shown === 'boolean';
 	}
 
