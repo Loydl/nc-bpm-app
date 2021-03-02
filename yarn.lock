@@ -2369,6 +2369,13 @@ camelcase@^6.0.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.2.0.tgz#924af881c9d525ac9d87f40d964e5cea982a1809"
   integrity sha512-c7wVvbw3f37nuobQNtgsgG9POC9qMbNuMQmTCqZv23b6MIz0fcYpBiOlv9gEN/hdLdnZTDQhg6e9Dq5M1vKvfg==
 
+camunda-bpmn-moddle@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/camunda-bpmn-moddle/-/camunda-bpmn-moddle-5.0.0.tgz#ed5fa4736035b2ba4f3934937b15e7293583643a"
+  integrity sha512-GZ5Gv8T9NudQ6y28cVqW8XUZGlor0ZBnrEKMANYmcXF2TeSTi8nAZ/4KOBfcRdfd0FcpxKwfY0ictYGfULLoww==
+  dependencies:
+    min-dash "^3.5.2"
+
 caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001181:
   version "1.0.30001187"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001187.tgz#5706942631f83baa5a0218b7dfa6ced29f845438"

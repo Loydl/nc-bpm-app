@@ -2,12 +2,13 @@ import { translate as t } from '@nextcloud/l10n';
 import Modeler from 'bpmn-js/lib/Modeler';
 import Viewer from 'bpmn-js/lib/Viewer';
 import propertiesPanelModule from 'bpmn-js-properties-panel';
-import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/bpmn';
+import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
+import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda.json';
 import api from './api';
+import './Editor.scss';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
 import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
-import './Editor.scss';
 
 declare type Modeler = {
 	destroy(): void,
@@ -136,6 +137,9 @@ export default class Editor {
 				],
 				propertiesPanel: {
 					parent: propertiesElement,
+				},
+				moddleExtensions: {
+					camunda: camundaModdleDescriptor,
 				},
 			}) : new Viewer({
 				container: canvasElement,

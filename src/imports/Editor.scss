@@ -36,6 +36,11 @@
   background: #f8f8f8;
   border-left: solid 1px #ccc;
   padding-right: 10px;
+  overflow: scroll;
+
+  button, span, select {
+    all: unset;
+  }
 }
 
 .bpmn-palette {
