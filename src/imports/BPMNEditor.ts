@@ -89,6 +89,7 @@ export default class BPMNEditor extends Editor {
 				moddleExtensions: {
 					camunda: camundaModdleDescriptor,
 				},
+				keyboard: { bindTo: window },
 			}) : new Viewer({
 				container: canvasElement,
 			});

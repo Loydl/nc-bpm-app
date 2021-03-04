@@ -51,7 +51,7 @@ abstract class BaseModeler {
 }
 
 export class DMSModeler extends BaseModeler {
-	constructor(options: { container: string | JQuery<HTMLElement> }) {
+	constructor(options: { container: string | JQuery<HTMLElement>, common: { keyboard?: { bindTo: Window }}}) {
 		super();
 		this.modeler = new Modeler(options);
 	}

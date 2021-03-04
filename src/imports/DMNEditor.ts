@@ -76,6 +76,11 @@ export default class DMNEditor extends Editor {
 
 			this.modeler = this.isFileUpdatable() ? new DMSModeler({
 				container: canvasElement,
+				common: {
+					keyboard: {
+						bindTo: window,
+					},
+				},
 			}) : new DMSViewer({
 				container: canvasElement,
 			});
