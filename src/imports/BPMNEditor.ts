@@ -108,7 +108,7 @@ export default class BPMNEditor extends Editor {
 	protected getAppContainerElement(): JQuery {
 		const containerElement = super.getAppContainerElement();
 
-		if (this.isFileUpdatable()) {
+		if (this.isFileUpdatable() && containerElement.find('>.bpmn-properties').length === 0) {
 			const propertiesElement = $('<div>');
 			propertiesElement.addClass('bpmn-properties');
 			propertiesElement.appendTo(this.containerElement);
