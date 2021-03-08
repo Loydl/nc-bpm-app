@@ -7,7 +7,12 @@ import 'dmn-js/dist/assets/dmn-js-drd.css';
 import 'dmn-js/dist/assets/dmn-js-literal-expression.css';
 import 'dmn-js/dist/assets/dmn-js-shared.css';
 import 'dmn-js/dist/assets/dmn-font/css/dmn.css';
+import 'dmn-js-properties-panel/dist/assets/dmn-js-properties-panel.css';
 import { DMSModeler, DMSViewer } from './vendor/dms-js';
+import propertiesPanelModule from 'dmn-js-properties-panel';
+import drdAdapterModule from 'dmn-js-properties-panel/lib/adapter/drd';
+import propertiesProviderModule from 'dmn-js-properties-panel/lib/provider/camunda';
+import camundaModdleDescriptor from 'camunda-dmn-moddle/resources/camunda.json';
 
 const PLAIN_TEMPLATE = `<?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="definitions_0xcty6c" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="10.1.0">
@@ -73,6 +78,7 @@ export default class DMNEditor extends Editor {
 		if (!this.modeler) {
 			const containerElement = this.getAppContainerElement();
 			const canvasElement = containerElement.find('.bpmn-canvas');
+			const propertiesElement = containerElement.find('.bpmn-properties');
 
 			this.modeler = this.isFileUpdatable() ? new DMSModeler({
 				container: canvasElement,
@@ -80,6 +86,19 @@ export default class DMNEditor extends Editor {
 					keyboard: {
 						bindTo: window,
 					},
+				},
+				drd: {
+					propertiesPanel: {
+						parent: propertiesElement,
+					},
+					additionalModules: [
+						propertiesPanelModule,
+						propertiesProviderModule,
+						drdAdapterModule,
+					],
+				},
+				moddleExtensions: {
+					camunda: camundaModdleDescriptor,
 				},
 			}) : new DMSViewer({
 				container: canvasElement,
@@ -113,5 +132,17 @@ export default class DMNEditor extends Editor {
 				containerElement.attr('data-state', 'unsaved');
 			}
 		});
+	}
+
+	protected getAppContainerElement(): JQuery {
+		const containerElement = super.getAppContainerElement();
+
+		if (this.isFileUpdatable() && containerElement.find('>.bpmn-properties').length === 0) {
+			const propertiesElement = $('<div>');
+			propertiesElement.addClass('bpmn-properties');
+			propertiesElement.appendTo(this.containerElement);
+		}
+
+		return containerElement;
 	}
 }

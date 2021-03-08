@@ -8,7 +8,7 @@
 	"license": "agpl",
 	"private": true,
 	"scripts": {
-		"build": "NODE_ENV=production webpack --progress --hide-modules --config webpack.prod.js --resolveJsonModule",
+		"build": "NODE_ENV=production webpack --progress --hide-modules --config webpack.prod.js",
 		"dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
 		"watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
 		"test": "run-s --continue-on-error --print-label test:**",
@@ -31,6 +31,8 @@
 		"bpmn-js": "^8.2.0",
 		"bpmn-js-properties-panel": "^0.40.0",
 		"camunda-bpmn-moddle": "^5.0.0",
+		"camunda-dmn-moddle": "^1.1.0",
+		"dmn-js-properties-panel": "^0.6.0",
 		"jquery": "^3.5.1"
 	},
 	"husky": {
