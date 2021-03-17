@@ -1,4 +1,4 @@
-# BPMN file editor for Nextcloud
+# BPMN/DMN modeler for Nextcloud
 
 ![Static analysis](https://github.com/Loydl/nc-bpm-app/workflows/Static%20analysis/badge.svg)
 ![PHP Tests](https://github.com/Loydl/nc-bpm-app/workflows/PHP%20Tests/badge.svg)
@@ -8,13 +8,15 @@
 
 This app integrates the [BPMN.io editor](https://bpmn.io) into [Nextcloud](https://nextcloud.com).
 
-![Screenshot editor](https://raw.githubusercontent.com/Loydl/nc-bpm-app/master/docs/screenshot-editor.png)
+![Screenshot BPMN editor](./docs/screenshot-editor.png)
+![Screenshot DMN editor](./docs/screenshot-DMN-editor.png)
+
 
 ## :heart_eyes: Features
 This integration provides the following features:
 
-* **Editor** Edit BPMN diagrams on every folder with write permission
-* **Viewer** View BPMN diagrams if you have no write permission
+* **Editor** Edit BPMN and DMN diagrams on every folder with write permission
+* **Viewer** View BPMN and DMN diagrams if you have no write permission
 * **New diagrams** Create new diagrams via the Nextcloud files app
 
 ## :rocket: Install it
