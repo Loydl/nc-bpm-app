@@ -1,4 +1,4 @@
-# BPMN/DMN modeler for Nextcloud
+# BPMN/DMN Viewer and Editor for Nextcloud
 
 ![Static analysis](https://github.com/Loydl/nc-bpm-app/workflows/Static%20analysis/badge.svg)
 ![PHP Tests](https://github.com/Loydl/nc-bpm-app/workflows/PHP%20Tests/badge.svg)
@@ -6,7 +6,8 @@
 ![Downloads](https://img.shields.io/github/downloads/Loydl/nc-bpm-app/total.svg)
 ![GitHub release](https://img.shields.io/github/release/Loydl/nc-bpm-app.svg)
 
-This app integrates the [BPMN.io editor](https://bpmn.io) into [Nextcloud](https://nextcloud.com).
+View and edit [BPMN 2.0](https://www.omg.org/spec/BPMN/2.0.2/) and [DMN 1.3](http://www.omg.org/spec/DMN/About-DMN/) diagrams in [Nextcloud](https://nextcloud.com).<br>
+This app integrates the [BPMN.io editor](https://bpmn.io) into Nextcloud.
 
 ![Screenshot BPMN editor](./docs/screenshot-editor.png)
 ![Screenshot DMN editor](./docs/screenshot-DMN-editor.png)
