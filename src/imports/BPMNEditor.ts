@@ -41,7 +41,7 @@ export default class BPMNEditor extends Editor {
 			return this.modeler.saveXML().then(data => data.xml);
 		}
 
-		if (this.file.etag) {
+		if (this.file.etag || OCA.Sharing?.PublicApp) {
 			return api.getFileContent(this.file.path, this.file.name);
 		}
 

@@ -39,7 +39,7 @@ export default abstract class Editor {
 	constructor(protected file: NextcloudFile, private fileList: NextcloudFileList) {
 		this.originalUrl = new URL(window.location.toString());
 		this.originalEtag = file.etag || '';
-		this.hasUnsavedChanges = !file.etag;
+		this.hasUnsavedChanges = !file.etag && !OCA.Sharing?.PublicApp;
 
 		window.addEventListener('beforeunload', this.onBeforeUnload);
 	}

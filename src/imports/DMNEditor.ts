@@ -43,7 +43,7 @@ export default class DMNEditor extends Editor {
 			return this.modeler.saveXML();
 		}
 
-		if (this.file.etag) {
+		if (this.file.etag || OCA.Sharing?.PublicApp) {
 			return api.getFileContent(this.file.path, this.file.name);
 		}
 

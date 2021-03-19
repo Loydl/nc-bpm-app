@@ -1,4 +1,4 @@
-import { generateRemoteUrl, generateUrl, getRootUrl } from '@nextcloud/router';
+import { generateRemoteUrl, getRootUrl } from '@nextcloud/router';
 import axios from '@nextcloud/axios';
 
 class Api {
@@ -21,15 +21,7 @@ class Api {
 		name = encodeURIComponent(name);
 
 		if (OCA.Sharing?.PublicApp) {
-			const token = $('#sharingToken').val();
-
-			return generateUrl('/s/{token}/download?path={path}&files={name}',
-				{
-					token,
-					path,
-					name,
-				}
-			);
+			return $('#downloadURL').val() as string;
 		}
 
 		return generateRemoteUrl(`files${path}/${name}`);
@@ -37,10 +29,11 @@ class Api {
 
 	public async uploadFile(path: string, name: string, data: any, etag?: string, contentType = 'text/xml') {
 		const base = this.getUploadBase();
-		const fullPath = base + OC.joinPaths('/', path, name);
+		const fullPath = OCA.Sharing?.PublicApp ? base : base + OC.joinPaths('/', path, name);
 
 		const headers = {
 			'Content-Type': contentType,
+			'X-Method-Override': 'PUT',
 		};
 
 		if (etag) {
