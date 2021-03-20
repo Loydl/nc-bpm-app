@@ -8,7 +8,7 @@ function bootstrapFileShare() {
 		return;
 	}
 
-	const state = loadState<{ permissions: number, nodeType: string }>('files_bpm', 'share');
+	const state = loadState<{ permissions: number, nodeType: string, nodeId: number }>('files_bpm', 'share');
 	const mimetype = $('#mimetype').val() as string;
 
 	if (['application/x-bpmn', 'application/x-dmn'].includes(mimetype) && state?.nodeType === 'file') {
@@ -17,6 +17,7 @@ function bootstrapFileShare() {
 			name: filename,
 			path: '/',
 			permissions: state.permissions,
+			id: state.nodeId,
 		};
 
 		const fileList = {

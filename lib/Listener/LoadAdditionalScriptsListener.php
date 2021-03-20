@@ -30,6 +30,7 @@ class LoadAdditionalScriptsListener implements IEventListener {
 			$this->initialState->provideInitialState('share', [
 				'permissions' => $share->getPermissions(),
 				'nodeType' => $share->getNodeType(),
+				'nodeId' => $share->getNodeId(),
 			]);
 		}
 
