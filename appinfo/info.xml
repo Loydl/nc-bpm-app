@@ -2,11 +2,13 @@
 <info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>files_bpm</id>
     <name>BPM Files</name>
-    <summary>Editor and Viewer for BPM files, like BPMN</summary>
-    <description><![CDATA[Add support for BPMN files.]]></description>
-    <version>0.2.0-alpha</version>
+    <summary>A BPMN 2.0/DMN 1.3 Viewer and Editor</summary>
+    <summary lang="de">Ein BPMN 2.0/DMN 1.3 Viewer und Editor</summary>
+    <description><![CDATA[A BPMN 2.0/DMN 1.3 Viewer and Editor]]></description>
+    <description lang="de"><![CDATA[Ein BPMN 2.0/DMN 1.3 Viewer und Editor]]></description>
+    <version>0.2.0</version>
     <licence>agpl</licence>
-    <author mail="klaus@jsxc.org">Klaus Herberth</author>
+    <author mail="harald.loydl@loydl.ch" homepage="https://loydl.ch">Harald Loydl</author>
     <namespace>FilesBpm</namespace>
     <types>
         <filesystem/>
