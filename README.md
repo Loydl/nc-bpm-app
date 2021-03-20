@@ -9,7 +9,7 @@
 View and edit [BPMN 2.0](https://www.omg.org/spec/BPMN/2.0.2/) and [DMN 1.3](http://www.omg.org/spec/DMN/About-DMN/) diagrams in [Nextcloud](https://nextcloud.com).<br>
 This app integrates the [BPMN.io editor](https://bpmn.io) into Nextcloud.
 
-![Screenshot BPMN editor](./docs/screenshot-editor.png)
+![Screenshot BPMN editor](./docs/screenshot-BPMN-editor.png)
 ![Screenshot DMN editor](./docs/screenshot-DMN-editor.png)
 
 
