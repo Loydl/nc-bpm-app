@@ -1,6 +1,8 @@
 import { translate as t } from '@nextcloud/l10n';
 import api from './api';
 import './Editor.scss';
+import { jsPDF } from 'jspdf';
+import 'svg2pdf.js';
 
 export type NextcloudFile = {
 	id?: number
@@ -44,7 +46,9 @@ export default abstract class Editor {
 		window.addEventListener('beforeunload', this.onBeforeUnload);
 	}
 
-	protected abstract getContent(): Promise<string>
+	protected abstract getContent(): Promise<string>;
+
+	protected abstract getSVG(): Promise<string>;
 
 	protected abstract runEditor(): Promise<void>;
 
@@ -109,21 +113,36 @@ export default abstract class Editor {
 			paletteElement.attr('data-filename', this.file.name);
 			paletteElement.appendTo(this.containerElement);
 
+			const groupElement = $('<div>');
+			groupElement.addClass('bpmn-group');
+			groupElement.appendTo(paletteElement);
+
 			if (this.isFileUpdatable()) {
 				$('<div>')
-					.addClass('entry icon-download bpmn-save')
+					.addClass('entry icon-save bpmn-save')
 					.attr('role', 'button')
-					.on('click', this.clickCallbackFactory(this.onSave))
-					.appendTo(paletteElement);
-
+					.on('click', this.clickCallbackFactory(this.onSave, 'icon-save'))
+					.appendTo(groupElement);
 			}
+
+			const downloadElement = $('<div>');
+			downloadElement.addClass('entry icon-download')
+				.attr('role', 'button')
+				.on('click', this.toggleMenu)
+				.appendTo(groupElement);
+
+			$('<ul>')
+				.addClass('menu')
+				.append($('<li>').addClass('entry icon-image').attr('title', t('files_bpm', 'Export SVG')).on('click', this.clickCallbackFactory(this.onDownloadAsSVG, 'icon-download')))
+				.append($('<li>').addClass('entry icon-pdf').attr('title', t('files_bpm', 'Export PDF')).on('click', this.clickCallbackFactory(this.onDownloadAsPDF, 'icon-download')))
+				.appendTo(downloadElement);
 
 			if (this.isRealFileList()) {
 				$('<div>')
 					.addClass('entry icon-close bpmn-close')
 					.attr('role', 'button')
 					.on('click', this.clickCallbackFactory(this.onClose))
-					.appendTo(paletteElement);
+					.appendTo(groupElement);
 			}
 
 			const canvasElement = $('<div>');
@@ -135,6 +154,28 @@ export default abstract class Editor {
 
 
 		return this.containerElement;
+	}
+
+	private toggleMenu = (ev: JQuery.ClickEvent) => {
+		ev.preventDefault();
+		ev.stopPropagation();
+
+		const element = $(ev.currentTarget).find('ul');
+		const closeMenu = () => element.removeClass('show');
+
+		if (element.hasClass('show')) {
+			$('body').off('click', closeMenu);
+		} else {
+			$('body').one('click', closeMenu);
+		}
+
+		if ($(ev.currentTarget).hasClass('icon-loading') || ev.currentTarget !== ev.target) {
+			closeMenu();
+
+			return;
+		}
+
+		element.toggleClass('show');
 	}
 
 	private setAppContainerReady(): void {
@@ -220,6 +261,44 @@ export default abstract class Editor {
 		throw new Error(`Unexpected status code (${result.statuscode}) while uploading file`);
 	}
 
+	private async onDownloadAsSVG() {
+		const svg = await this.getSVG();
+		const svgBlob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+		const svgUrl = URL.createObjectURL(svgBlob);
+
+		const linkElement = $('<a>').attr('href', svgUrl).attr('download', this.file.name.replace(/\.[^.]+$/, '.svg')).css('visibility', 'hidden');
+		linkElement.appendTo('body');
+		linkElement.get(0).click();
+		linkElement.remove();
+	}
+
+	private async onDownloadAsPDF() {
+		const svgContainer = $('<div>');
+		svgContainer.css({
+			position: 'fixed',
+			bottom: '100%',
+		});
+		svgContainer.append(await this.getSVG());
+		svgContainer.appendTo(this.containerElement);
+
+		const svgElement = svgContainer.find('svg').get(0);
+
+		const bounding = svgElement.getBoundingClientRect();
+		const pdf = new jsPDF(bounding.width > bounding.height ? 'l' : 'p', 'pt', [bounding.width, bounding.height]);
+
+		try {
+			await pdf.svg(svgElement);
+
+			await pdf.save(this.file.name.replace(/\.[^.]+$/, '.pdf'), {returnPromise: true});
+		} catch(err) {
+			svgContainer.remove();
+
+			throw err;
+		}
+
+		svgContainer.remove();
+	}
+
 	private async onFileHasChanged(serverEtag: string) {
 		const title = t('files_bpm', 'File has changed');
 		const description = t('files_bpm', 'The file was modified while editing. Do you want to overwrite it, or should your changes be saved with a new filename?');
@@ -263,7 +342,7 @@ export default abstract class Editor {
 		return (ev: JQuery.ClickEvent<HTMLElement>) => {
 			ev.preventDefault();
 
-			const targetElement = $(ev.target);
+			const targetElement = $(ev.target).parents('.entry').length > 0 ? $(ev.target).parents('.entry').first() : $(ev.target);
 
 			if (targetElement.hasClass('icon-loading')) {
 				return;
@@ -278,7 +357,7 @@ export default abstract class Editor {
 				setTimeout(() => {
 					targetElement.removeClass('icon-checkmark');
 
-					className && targetElement.removeClass(className);
+					className && targetElement.addClass(className);
 				}, 3000);
 			}).catch((error) => {
 				console.log('clickCBFactory Error', error);
@@ -294,7 +373,7 @@ export default abstract class Editor {
 				setTimeout(() => {
 					targetElement.removeClass('icon-error');
 
-					className && targetElement.removeClass(className);
+					className && targetElement.addClass(className);
 				}, 3000);
 			}).then(() => {
 				targetElement.removeClass('icon-loading');

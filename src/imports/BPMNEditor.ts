@@ -48,6 +48,14 @@ export default class BPMNEditor extends Editor {
 		return Promise.resolve(PLAIN_TEMPLATE);
 	}
 
+	protected async getSVG(): Promise<string> {
+		if (this.modeler) {
+			return (await this.modeler.saveSVG()).svg;
+		}
+
+		throw new Error('Modeler not loaded');
+	}
+
 	protected async destroy(): Promise<void> {
 		this.modeler && this.modeler.destroy();
 

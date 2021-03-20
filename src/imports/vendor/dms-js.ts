@@ -33,6 +33,18 @@ abstract class BaseModeler {
 		});
 	}
 
+	public saveSVG(): Promise<{svg: string}> {
+		return new Promise(resolve => {
+			this.modeler.saveSVG((err, svg) => {
+				if (err) {
+					throw new Error(err);
+				}
+
+				resolve({svg});
+			});
+		});
+	}
+
 	public destroy(): void {
 		this.modeler.destroy();
 	}
