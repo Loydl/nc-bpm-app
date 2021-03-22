@@ -72,7 +72,7 @@ const BpmFileMenuPlugin = {
 	attach: function (menu) {
 		menu.addMenuEntry({
 			id: 'bpmn',
-			displayName: t('files_bpm', 'BPMN diagram'),
+			displayName: t('files_bpm', 'New BPMN diagram'),
 			templateName: 'diagram.bpmn',
 			iconClass: 'icon-filetype-bpmn',
 			fileType: 'file',
@@ -90,7 +90,7 @@ const BpmFileMenuPlugin = {
 
 		menu.addMenuEntry({
 			id: 'dmn',
-			displayName: t('files_bpm', 'DMN diagram'),
+			displayName: t('files_bpm', 'New DMN diagram'),
 			templateName: 'diagram.dmn',
 			iconClass: 'icon-filetype-dmn',
 			fileType: 'file',
