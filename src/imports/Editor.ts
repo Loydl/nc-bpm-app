@@ -61,6 +61,7 @@ export default abstract class Editor {
 		await this.runEditor();
 
 		this.setAppContainerReady();
+		this.addPropertiesResizeListener();
 	}
 
 	private addEditStateToHistory() {
@@ -100,6 +101,35 @@ export default abstract class Editor {
 		this.fileList.setViewerMode(false);
 		this.fileList.hideMask();
 	}
+
+	private addPropertiesResizeListener () {
+		const resizeElement = this.containerElement.find('>.bpmn-properties-resizer');
+		const propertiesElement = this.containerElement.find('>.bpmn-properties');
+		if(this.isFileUpdatable() && resizeElement && propertiesElement) {
+			resizeElement.on('mousedown', () => {
+				document.addEventListener('mousemove', resize, false);
+				document.addEventListener('mouseup', () => {
+					document.removeEventListener('mousemove', resize, false);
+				}, false);
+			});
+		}
+
+		const resize = (event: MouseEvent) => {
+			event.preventDefault();
+			event.stopPropagation();
+			const size = `${document.body.clientWidth - event.x}px`;
+			propertiesElement.css('flex-basis', size);
+		};
+	}
+
+	private removePropertiesResizeListener () {
+		const resizeElement = this.containerElement.find('>.bpmn-properties-resizer');
+
+		if(resizeElement) {
+			resizeElement.off('mousedown');
+		}
+	}
+
 
 	protected getAppContainerElement(): JQuery {
 		if (!this.containerElement || this.containerElement.length === 0) {
@@ -150,6 +180,16 @@ export default abstract class Editor {
 			canvasElement.appendTo(this.containerElement);
 
 			$('#content').append(this.containerElement);
+
+			if (this.isFileUpdatable() && this.containerElement.find('>.bpmn-properties').length === 0) {
+				const propertiesResizeElement = $('<div>');
+				propertiesResizeElement.addClass('bpmn-properties-resizer');
+				propertiesResizeElement.appendTo(this.containerElement);
+
+				const propertiesElement = $('<div>');
+				propertiesElement.addClass('bpmn-properties');
+				propertiesElement.appendTo(this.containerElement);
+			}
 		}
 
 
@@ -228,6 +268,8 @@ export default abstract class Editor {
 
 		this.restoreFileList();
 		this.resetHistoryState();
+
+		this.removePropertiesResizeListener();
 
 		window.removeEventListener('beforeunload', this.onBeforeUnload);
 

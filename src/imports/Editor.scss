@@ -34,13 +34,17 @@
 
 .bpmn-properties {
   background: #f8f8f8;
-  border-left: solid 1px #ccc;
   padding-right: 10px;
   overflow: scroll;
 
   button, span, select {
     all: unset;
   }
+}
+
+.bpmn-properties-resizer {
+  border-left: solid 5px #ccc;
+  cursor: col-resize;
 }
 
 .bpmn-palette {
