@@ -83,6 +83,9 @@ async function createRelease(appId) {
 function createArchive(appId, fileBaseName) {
 	const fileName = `${fileBaseName}.tar.gz`;
 	const filePath = path.normalize(__dirname + `/../archives/${fileName}`);
+	const dirName = path.dirname(filePath);
+
+	if(!fs.existsSync(dirName)) fs.mkdirSync(dirName);
 	const output = fs.createWriteStream(filePath);
 	const archive = archiver('tar', {
 		gzip: true,

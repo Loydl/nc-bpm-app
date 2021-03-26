@@ -27,7 +27,7 @@ const files = [
 ];
 
 function pull() {
-	return git.pull('origin', 'master');
+	return git.pull('origin', 'main');
 }
 
 async function notAlreadyTagged() {
@@ -41,7 +41,7 @@ async function lastCommitNotBuild() {
 }
 
 async function isMasterBranch() {
-	return (await git.branch()) === 'master';
+	return (await git.branch()) === 'main';
 }
 
 async function generateChangelog() {
@@ -227,7 +227,7 @@ function push() {
 		return;
 	}
 
-	return git.push('origin', 'master');
+	return git.push('origin', 'main');
 }
 
 async function createGithubRelease(changeLog) {
