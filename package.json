@@ -1,6 +1,6 @@
 {
 	"name": "files_bpm",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "BPMN editor for Nextcloud",
 	"main": "src/index.js",
 	"repository": "https://github.com/Loydl/nc-bpm-app",

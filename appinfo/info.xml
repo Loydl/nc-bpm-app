@@ -6,7 +6,7 @@
     <summary lang="de">Ein BPMN 2.0/DMN 1.3 Viewer und Editor</summary>
     <description><![CDATA[A BPMN 2.0/DMN 1.3 Viewer and Editor]]></description>
     <description lang="de"><![CDATA[Ein BPMN 2.0/DMN 1.3 Viewer und Editor]]></description>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
     <licence>agpl</licence>
     <author mail="harald.loydl@loydl.ch" homepage="https://loydl.ch">Harald Loydl</author>
     <namespace>FilesBpm</namespace>
