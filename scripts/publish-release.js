@@ -254,7 +254,7 @@ async function createGithubRelease(changeLog) {
 		repo,
 		// eslint-disable-next-line @typescript-eslint/camelcase
 		tag_name: tagName,
-		name: `BigBlueButton Integration ${tagName}`,
+		name: `Nextcloud BPM Integration ${tagName}`,
 		body: changeLog.replace(/^## [^\n]+\n/, ''),
 		prerelease: !/^\d+\.\d+\.\d+$/.test(package.version),
 	};
