@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## 0.2.0 (2021-04-16)
+## 0.2.1 (2021-04-16)
 ### Added
 - add support for resizing properties panel
 - add pdf and svg export
@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - add bpmn editor
 
 ### Fixed
+- appstore screenshot
 - build/publish scripts
 - update menu entry names (https://github.com/Loydl/nc-bpm-app/issues/2)
 - editor on single file share
@@ -34,10 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - body scrollbar
 
 ### Misc
-- publish scripts
-- rename application to files_bpm
-- move editor style to editor
-- remove comment
+- update change log
 - update screenshot BPMN editor
 - update app store info
 - update app description
@@ -48,6 +46,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - add release guide
 - add screenshot
 - update readme
+- publish scripts
+- rename application to files_bpm
+- move editor style to editor
+- remove comment
 - fix integration test
 - fix phpunit bootstrap
 - fix psalm
