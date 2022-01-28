@@ -12,3 +12,4 @@ node_modules/
 /composer.phar
 yarn-error.log
 /assets/
+/.php-cs-fixer.cache
